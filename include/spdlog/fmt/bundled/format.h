@@ -3196,7 +3196,7 @@ FMT_CONSTEXPR20 void format_hexfloat(Float value, format_specs specs,
   buf.push_back(specs.upper ? 'P' : 'p');
 
   uint32_t abs_e;
-  if (f.e < 0) {
+  if (0 > f.e) {
     buf.push_back('-');
     abs_e = static_cast<uint32_t>(-f.e);
   } else {
