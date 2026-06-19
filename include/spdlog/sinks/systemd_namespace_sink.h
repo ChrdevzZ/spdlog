@@ -8,10 +8,11 @@
 #include <spdlog/sinks/base_sink.h>
 
 #include <array>
+#include <unistd.h>
 #include <systemd/sd-journal.h>
 #include <systemd/sd-daemon.h>
 
-namespace spdlog {
+SPDLOG_NAMESPACE_BEGIN
 namespace sinks {
 
 /**
@@ -138,7 +139,7 @@ using systemd_namespace_sink_mt = systemd_namespace_sink<std::mutex>;
 using systemd_namespace_sink_st = systemd_namespace_sink<details::null_mutex>;
 }  // namespace sinks
 
-template <typename Factory = spdlog::synchronous_factory>
+template <typename Factory = synchronous_factory>
 inline std::shared_ptr<logger> systemd_namespace_logger_mt(const std::string &logger_name,
                                                            const std::string &ident,
                                                            const std::string &name_space,
@@ -147,7 +148,7 @@ inline std::shared_ptr<logger> systemd_namespace_logger_mt(const std::string &lo
         logger_name, ident, name_space, enable_formatting);
 }
 
-template <typename Factory = spdlog::synchronous_factory>
+template <typename Factory = synchronous_factory>
 inline std::shared_ptr<logger> systemd_namespace_logger_st(const std::string &logger_name,
                                                            const std::string &ident,
                                                            const std::string &name_space,
@@ -155,4 +156,4 @@ inline std::shared_ptr<logger> systemd_namespace_logger_st(const std::string &lo
     return Factory::template create<sinks::systemd_namespace_sink_st>(
         logger_name, ident, name_space, enable_formatting);
 }
-}  // namespace spdlog
+SPDLOG_NAMESPACE_END
